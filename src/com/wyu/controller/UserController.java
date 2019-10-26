@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.wyu.mapper.UserMapper;
 import com.wyu.pojo.User;
 import com.wyu.service.UserService;
+import org.apache.ibatis.executor.ReuseExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -92,7 +93,7 @@ public class UserController {
      * 分页查询
      *
      * @param page 第几页
-     * @param rows       一页查询行数
+     * @param rows 一页查询行数
      * @return
      */
     @RequestMapping(value = "/selectUserByPage", produces = {"application/json;charset=UTF-8"})
@@ -100,6 +101,8 @@ public class UserController {
     String selectUserByPage(int page, int rows) {//pageNumber 页面，rows 行数
         PageHelper.startPage(page, rows);
         List<User> userList = userService.selectUserByPage();
+
+
         PageInfo<User> pageInfo = new PageInfo(userList);
         long total = pageInfo.getTotal();
         System.out.println("controller--->" + total);
@@ -107,10 +110,38 @@ public class UserController {
         for (User user : userList) {
             System.out.println(user.toString());
         }
+
         String stringJson = JSON.toJSONString(userList);
         String json = "{\"total\":" + total + ",\"rows\":" + stringJson + "}";
         System.out.println("json---===-->" + json);
         return json;
+    }
+
+    @RequestMapping(value = "/updateUserById", method = RequestMethod.POST)
+    @ResponseBody
+    String updateUserById(User user) {
+        user.setCreatedate(new Date());
+        int i = userService.updateUserById(user);
+//        String info = "update fail";
+//        if (i > 0) {
+//            info = "update success";
+//        }
+        int info = 0;
+        if (i > 0) {
+            info = 1;
+        }
+        return info + "";
+    }
+
+    @RequestMapping(value = "/deleteUserById", produces = {"application/text;charset=UTF-8"})
+    @ResponseBody
+    public String deleteUserByID(int number) {
+        int i = userService.deleteUserById(number);
+        String info = "删除失败";
+        if (i > 0) {
+            info = "删除成功";
+        }
+        return info;
     }
 
 

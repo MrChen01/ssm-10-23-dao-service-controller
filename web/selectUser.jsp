@@ -16,18 +16,18 @@
 <body>
 <div id="tb" style="padding: 5px; height: auto">
     <div>
-        学号: <input class="easyui-textbox" style="width: 150px; height: 25px">
-        姓名: <input class="easyui-textbox" style="width: 150px; height: 25px">
-        班级: <select class="easyui-combobox" panelHeight="auto" style="width: 100px; height: 25px">
-        <option value="1701">1701班</option>
-        <option value="1702">1702班</option>
-        <option value="1703">1703班</option>
-        <option value="1704">1704班</option>
-        <option value="1705">1705班</option>
+        学号: <input class="easyui-textbox" style="width: 150px; height: 25px" name="number">
+        姓名: <input class="easyui-textbox" style="width: 150px; height: 25px" name="username">
+        等级: <select class="easyui-combobox" panelHeight="auto" style="width: 100px; height: 25px " name="status">
+        <option value="1">普通用户</option>
+        <option value="2">管理员</option>
+        <option value="3">超级管理员</option>
     </select>
         <a href="#" class="easyui-linkbutton" iconCls="icon-search" style="height: 25px">查询</a>
     </div>
 </div>
+
+
 <table id="dg" style="width: 100%; height: 500px"></table>
 
 <div id="dlg" class="easyui-dialog" title="修改学生信息"
@@ -58,14 +58,21 @@
                                name="password" id="password"
                                data-options="required:true,validType:'length[3,16]'"></td>
                 </tr>
+
                 <tr>
-                    <td>班级:</td>
-                    <td><select id="classinfo" class="easyui-combobox"
-                                name="classinfo" style="width: 120px;">
-                        <option value="160801">160801</option>
-                        <option value="160802">160802</option>
-                        <option value="160803">160803</option>
-                        <option value="160804">160804</option>
+                    <td>手机:</td>
+                    <td><input class="easyui-textbox" type="text"
+                               name="phone" id="phone"
+                               data-options="required:true,validType:'length[6,11]'"></td>
+                </tr>
+
+                <tr>
+                    <td>等级:</td>
+                    <td><select id="status" class="easyui-combobox"
+                                name="status" style="width: 120px;">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
                     </select></td>
                 </tr>
             </table>
@@ -87,16 +94,19 @@
         var number = $("#number").val();
         var username = $("#username").val();
         var password = $("#password").val();
+        var phone = $("#phone").val();
+        var status = $("#status").val();
 //        var classinfo = $("#classinfo").val();
         //将得到的学生信息构建成json数据
         var json = {
             "number": number,
             "username": username,
             "password": password,
-            "classinfo": classinfo
+            "phone": phone,
+            "status":status
         };
         //完成ajax操作
-        $.post("UpdateStu", json, function (data) {
+        $.post("http://localhost:8080/updateUserById", json, function (data) {
             var info = "对不起，修改失败！";
             var pic = "error"
             if (data == "1") {
@@ -107,38 +117,64 @@
                 window.location.reload();
             });
         });
-
     }
 
-    $('#dg').datagrid({
-        url: '/selectUserByPage',
-        title: '学生列表',
-        border: false,
-        rownumbers: true,
-        toolbar: '#tb',
-        pagination: true,
-        pageSize: "10",
-        pageList: [5, 10, 15, 20],
-        singleSelect: true,
-        columns: [[{
-            field: 'number',
-            title: '学号',
-            width: 220
-        }, {
-            field: 'username',
-            title: '姓名',
-            width: 220
-        }, {
-            field: 'password',
-            title: '密码',
-            width: 200
-        }, {
-            field: 'phone',
-            title: '手机',
-            width: 220
-        }]]
-    });
     $(function () {
+
+        /**
+         * @author 光芒
+         *
+         * @requires jQuery
+         *
+         * 格式化日期时间
+         */
+        function DateTimeFormatter(value) {
+            if (value == undefined) {
+                return "";
+            }
+            /*json格式时间转js时间格式*/
+            value = value.substr(1, value.length - 2);
+            var obj = eval('(' + "{Date: new " + value + "}" + ')');
+            var dateValue = obj["Date"];
+            if (dateValue.getFullYear() < 1900) {
+                return "";
+            }
+            return dateValue.format("yyyy-MM-dd hh:mm:ss");
+        }
+
+        $('#dg').datagrid({
+            url: '/selectUserByPage',
+            title: '学生列表',
+            border: false,
+            rownumbers: true,
+            toolbar: '#tb',
+            pagination: true,
+            pageSize: "10",
+            pageList: [5, 10, 15, 20],
+            singleSelect: true,
+            columns: [[{
+                field: 'number',
+                title: '学号',
+                width: 220
+            }, {
+                field: 'username',
+                title: '姓名',
+                width: 220
+            }, {
+                field: 'password',
+                title: '密码',
+                width: 200
+            }, {
+                field: 'phone',
+                title: '手机',
+                width: 200
+            }, {
+                field: 'createdate',
+                title: '注册时间',
+                width: 220
+            }]]
+        });
+
         var pager = $('#dg').datagrid().datagrid('getPager');
 
         pager.pagination({
@@ -153,7 +189,7 @@
                                 + row.username + ')吗?', function (r) {
                                 if (r) {
                                     //ajax：完成后天交互
-                                    $.get("DeleteStu?number="
+                                    $.get("/deleteUserById?number="
                                         + row.number, null, function (data) {
                                         $.messager.alert('结果', data,
                                             'info', function () {
@@ -175,7 +211,6 @@
                             $('#dlg').dialog('open');
                             var row = $('#dg').datagrid('getSelected');
                             if (row != null) {
-
                                 //读取方式,根据row的字段row.xxx
                                 $("#number")
                                     .textbox('setValue', row.number);
@@ -183,17 +218,17 @@
                                     row.username);
                                 $("#password").textbox('setValue',
                                     row.password);
-                                $("#classinfo").combobox('setValue',
-                                    row.classinfo);
+                                $("#phone").textbox('setValue',
+                                    row.phone);
+                                $("#status").combobox('setValue',
+                                    row.status);
                                 $('#dlg').dialog('open');
                             }
 
                         }
-
                     }
                 }]
         });
-
     })
 </script>
 

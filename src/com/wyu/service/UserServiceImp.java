@@ -4,8 +4,10 @@ import com.wyu.mapper.UserMapper;
 import com.wyu.pojo.User;
 import com.wyu.pojo.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,7 +20,9 @@ import java.util.List;
 @Service("userServiceImp")
 public class UserServiceImp implements UserService {
 
-    @Autowired
+    //    @Autowired
+//    @Qualifier()
+    @Resource
     private UserMapper userMapper;
 
     @Override
@@ -43,13 +47,13 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public int update(User user) {
-        return 0;
+    public int updateUserById(User user) {
+        return userMapper.updateByPrimaryKey(user);
     }
 
     @Override
     public int deleteUserById(int deleteById) {
-        return 0;
+        return userMapper.deleteByPrimaryKey(deleteById + "");
     }
 
     @Override
@@ -71,6 +75,5 @@ public class UserServiceImp implements UserService {
         System.out.println(userList.toString());
         return userList;
     }
-
 
 }
