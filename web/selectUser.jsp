@@ -96,7 +96,6 @@
         var password = $("#password").val();
         var phone = $("#phone").val();
         var status = $("#status").val();
-//        var classinfo = $("#classinfo").val();
         //将得到的学生信息构建成json数据
         var json = {
             "number": number,
@@ -105,8 +104,9 @@
             "phone": phone,
             "status":status
         };
+
         //完成ajax操作
-        $.post("http://localhost:8080/updateUserById", json, function (data) {
+        $.post("/updateUserById", json, function (data) {
             var info = "对不起，修改失败！";
             var pic = "error"
             if (data == "1") {

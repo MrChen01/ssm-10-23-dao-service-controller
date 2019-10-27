@@ -14,28 +14,57 @@
     <script type="text/javascript" charset="utf-8" src="ueditor/lang/zh-cn/zh-cn.js"></script>
 </head>
 <body>
-<form action="/servletTest" method="get">
+<form action="/insertNotice" method="get">
     <table cellpadding="7">
         <tr>
             <td>公告名称:</td>
-            <td><input type="text" name="noticeName" width="300px" height="20px"></td>
+            <td><input value="AAAA" id="name" type="text" name="name" width="300px" height="20px"></td>
         </tr>
 
         <tr>
             <td>公告主题:</td>
-            <td><input type="text" name="title" width="300px" height="20px"></td>
+            <td><input id="title" value="ABBBB" type="text" name="title" width="300px" height="20px"></td>
         </tr>
-
     </table>
-    <textarea id="container" name="container" style="width: 100%;height: 400px;"></textarea>
-    <input type="submit" value="submit">
+    <textarea id="content" name="content" style="width: 100%;height: 400px;"></textarea>
+    <input type="text" value="remark" name="remark" id="remark" placeholder="remark 备注使用">
+    <input id="submit" type="submit" value="submit">
+
 </form>
 <script type="text/javascript">
-    var ue=UE.getEditor("container");
+    var ue = UE.getEditor("content");
 
     setTimeout(function () {
         editor.execCommand("drafts");
-    },2000);
+    }, 2000);
+
+    $(function () {
+
+//        function notice() {
+//        }
+
+        $("#submit").click(function () {
+            console.log(ue);
+            var name = $("#name").val();
+            var title = $("#title").val();
+            var content = $("#content").val();
+            var remark = $("#remark").val();
+            var json = {
+                "name": name,
+                "title": title,
+                "content": content,
+                "remark": remark
+            };
+            alert(JSON.stringify(json));
+            $.get("/insertNotice", json, function (data) {
+//                console.log(data);
+                alert(data);
+                window.location.reload();
+            });
+        });
+
+
+    })
 </script>
 </body>
 </html>

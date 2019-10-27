@@ -20,17 +20,52 @@
 <p>The textbox allows a user to enter information.</p>
 <div style="margin:20px 0;"></div>
 <div class="easyui-panel" title="Register" style="width:100%;max-width:400px;padding:30px 60px;">
-    <div style="margin-bottom:20px"><input class="easyui-textbox" label="部门名称:" labelPosition="top"
+
+    <div style="margin-bottom:20px"><input id="id" name="id" class="easyui-textbox" label="部门编号:" labelPosition="top"
+                                           data-options="prompt:'Enter a part id...'" style="width:100%;">
+    </div>
+
+    <div style="margin-bottom:20px"><input id="name" name="name" class="easyui-textbox" label="部门名称:" labelPosition="top"
                                            data-options="prompt:'Enter a part name...'" style="width:100%;">
     </div>
+
+
     <div style="margin-bottom:20px">
-        <input class="easyui-textbox" label="备注:" labelPosition="top" style="width:100%;">
+        <input id="remark"  name="remark" class="easyui-textbox" label="备注:" labelPosition="top" style="width:100%;">
     </div>
 
     <div>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-ok" style="width:100%;height:32px">Register</a>
+        <a href="javascript:void(0)" id="registerDept" class="easyui-linkbutton" iconCls="icon-ok"
+           style="width:100%;height:32px">添加部门</a>
     </div>
 </div>
 
 </body>
+<script type="text/javascript">
+    $(function () {
+        $("#registerDept").click(function () {
+            var id = $("#id").val();
+            var name = $("#name").val();
+            var remark = $("#remark").val();
+
+            var json = {
+                "name": name,
+                "remark": remark
+            };
+
+            alert(JSON.stringify(json));
+            $.post("/insertDept", json, function (data) {
+//                alert(json);
+                var info = "添加成功";
+                if (data == "1") {
+                    console.log(data);
+                    $.messager.alert('结果', "添加成功",
+                        'info', function () {
+                            window.location.reload();
+                        });
+                }
+            });
+        });
+    });
+</script>
 </html>

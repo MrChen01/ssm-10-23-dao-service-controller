@@ -16,8 +16,6 @@
     <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
 </head>
 <body>
-<%--<h2>Basic Form</h2>--%>
-<%--<p>Fill the form and submit it.</p>--%>
 <div style="margin:20px 0;"></div>
 <div class="easyui-panel" title="New Topic" style="width:100%;max-width:400px;padding:30px 60px;">
     <form id="ff" method="post">

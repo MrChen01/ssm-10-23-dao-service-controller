@@ -34,6 +34,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
+    /**
+     * 插入用户
+     * @param user
+     * @param model
+     * @return
+     */
     @RequestMapping("/insertUser")
     public @ResponseBody
     String insertUser(User user, Model model) {
@@ -48,6 +55,13 @@ public class UserController {
         return info;
     }
 
+    /**
+     * 通过用户名字查找该用户
+     * @param number
+     * @param password
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String selectUserByUsername(String number, String password, Model model) {
         System.out.println("number--" + number + "" + password);
@@ -101,31 +115,24 @@ public class UserController {
     String selectUserByPage(int page, int rows) {//pageNumber 页面，rows 行数
         PageHelper.startPage(page, rows);
         List<User> userList = userService.selectUserByPage();
-
-
         PageInfo<User> pageInfo = new PageInfo(userList);
         long total = pageInfo.getTotal();
-        System.out.println("controller--->" + total);
-        System.out.println("userList----->");
-        for (User user : userList) {
-            System.out.println(user.toString());
-        }
-
+//        System.out.println("controller--->" + total);
+//        System.out.println("userList----->");
+//        for (User user : userList) {
+//            System.out.println(user.toString());
+//        }
         String stringJson = JSON.toJSONString(userList);
         String json = "{\"total\":" + total + ",\"rows\":" + stringJson + "}";
-        System.out.println("json---===-->" + json);
+//        System.out.println("json---===-->" + json);
         return json;
     }
 
     @RequestMapping(value = "/updateUserById", method = RequestMethod.POST)
     @ResponseBody
-    String updateUserById(User user) {
+    public String updateUserById(User user) {
         user.setCreatedate(new Date());
         int i = userService.updateUserById(user);
-//        String info = "update fail";
-//        if (i > 0) {
-//            info = "update success";
-//        }
         int info = 0;
         if (i > 0) {
             info = 1;
