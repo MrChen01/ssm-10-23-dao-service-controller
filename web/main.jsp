@@ -92,13 +92,17 @@
 
         }
 
+        #notice_select > a {
+            width: 150px;
+            margin-top: 5px;
+        }
+
     </style>
 
 </head>
 <body>
 
 <div id="cc" class="easyui-layout" style="width:100%;height:100%;">
-
 
     <div id="north-concent" data-options="region:'north'" style="height:80px;border-bottom: 10px pink solid">
         <div class="panel layout-panel layout-panel-north panel-htop" style="left: 0px; top: 0px; width: 100%;">
@@ -195,6 +199,8 @@
                 <h3 style="color:#0099FF;">jQuery手风琴</h3>
                 <p id="title"><a href="#" class="easyui-linkbutton icon-add-test"
                                  data-options="iconCls:'icon-add'">添加公告</a>
+                <p id="notice_select"><a href="#" class="easyui-linkbutton icon-add-test"
+                                         data-options="iconCls:'icon-add'">查询公告</a>
                     <%--<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">Remove</a>--%>
                     <%--<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'">Save</a>--%>
                     <%--<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cut',disabled:true">Cut</a>--%>
@@ -203,11 +209,13 @@
                 <p>Accordion是jQuery的easyui框架的一部分。它使您可以更容易地在web页面上定义手风琴组件。</p>
             </div>
 
-
             <div title="职位管理" data-options="iconCls:'icon-reload'" style="padding:10px;">
                 <h3 style="color:#0099FF;">jQuery手风琴</h3>
                 <p id="employee">
-                    <a href="#" class="easyui-linkbutton icon-add-test" data-options="iconCls:'icon-add'">职位管理</a>
+                    <a id="insert_job" href="#" class="easyui-linkbutton icon-add-test"
+                       data-options="iconCls:'icon-add'">职位添加</a>
+                    <a id="select_job" href="#" class="easyui-linkbutton icon-add-test"
+                       data-options="iconCls:'icon-add'">职位查询</a>
                     <%--<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">Remove</a>--%>
                     <%--<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'">Save</a>--%>
                     <%--<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-cut',disabled:true">Cut</a>--%>
@@ -235,8 +243,6 @@
                                     <li>orange</li>
                                 </ul>
                             </li>
-
-
                             <li>
                                 <span>Vegetables</span>
                                 <ul>
@@ -252,8 +258,6 @@
                 </ul>
             </div>
         </div>
-
-
     </div>
 
     <div data-options="region:'center',title:'center title'" style="padding:5px;background:#eee;">
@@ -320,6 +324,18 @@
 
         $("#title>a").click(function () {
             addTab("#tt", "添加公告", "icon-mini-edit", "addNotice.jsp");
+        });
+
+        $("#notice_select").click(function () {
+            addTab("#tt", "查询公告", "icon-mini-edit", "noticeSelect.jsp");
+        });
+
+        $("#insert_job").click(function () {
+            addTab("#tt", "添加job", "icon-mini-edit", "insert_job.jsp");
+        });
+
+        $("#select_job").click(function () {
+            addTab("#tt", "查询job", "icon-mini-edit", "select_job.jsp");
         });
 
 //        $("#addTab").click(function () {

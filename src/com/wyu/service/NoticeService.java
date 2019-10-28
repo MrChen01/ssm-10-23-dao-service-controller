@@ -2,6 +2,8 @@ package com.wyu.service;
 
 import com.wyu.pojo.Notice;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: 陈卓信
@@ -10,4 +12,7 @@ import com.wyu.pojo.Notice;
  */
 public interface NoticeService {
     int insertNotice(Notice notice);
+    List<Notice> selectAllNotice();
+    int updateNotice(Notice notice);
+    int deleteNotice(int id);
 }

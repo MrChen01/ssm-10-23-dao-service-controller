@@ -11,6 +11,20 @@ public class Notice {
 
     private String content;
 
+    @Override
+    public String toString() {
+        return "Notice{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
+                ", remark='" + remark + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
+
+    public Notice() {
+    }
+
     public Integer getId() {
         return id;
     }

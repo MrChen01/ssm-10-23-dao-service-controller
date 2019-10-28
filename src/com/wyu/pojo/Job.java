@@ -7,6 +7,18 @@ public class Job {
 
     private String remark;
 
+    @Override
+    public String toString() {
+        return "Job{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", remark='" + remark + '\'' +
+                '}';
+    }
+
+    public Job() {
+    }
+
     public Integer getId() {
         return id;
     }
