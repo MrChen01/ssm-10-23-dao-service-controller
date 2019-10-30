@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestScope;
 import org.springframework.web.context.request.SessionScope;
@@ -37,6 +38,7 @@ public class UserController {
 
     /**
      * 插入用户
+     *
      * @param user
      * @param model
      * @return
@@ -57,6 +59,7 @@ public class UserController {
 
     /**
      * 通过用户名字查找该用户
+     *
      * @param number
      * @param password
      * @param model
@@ -149,6 +152,24 @@ public class UserController {
             info = "删除成功";
         }
         return info;
+    }
+
+    @RequestMapping(value = "/selectUserByLike", produces = {"application/text;charset=UTF-8"})
+    @ResponseBody
+    public String selectUserByLike(@RequestParam("number") String number,
+                                   @RequestParam("username") String username,
+                                   @RequestParam("status") int status,
+                                   @RequestParam("page") int page,
+                                   @RequestParam("rows") int rows) {
+        System.out.println("----------------->" + number + "----" + username + "----" + status + "----" + page + "----" + rows);
+        PageHelper.startPage(page, rows);
+        List<User> userList = userService.selectUserByLike(number, username, status);
+        PageInfo<User> pageInfo = new PageInfo<>(userList);
+        long total = pageInfo.getTotal();
+        String stringJson = JSON.toJSONString(userList);
+        String json = "{'total':" + total + ",'rows':" + stringJson + "}";
+        System.out.println("json---->" + json);
+        return json;
     }
 
 

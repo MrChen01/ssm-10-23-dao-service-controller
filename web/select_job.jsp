@@ -48,7 +48,7 @@
                 <tr>
                     <td>岗位名称:</td>
                     <td><input class="easyui-textbox" type="text" name="name"
-                               id="username" data-options="required:true"></td>
+                               id="name" data-options="required:true"></td>
                 </tr>
 
                 <tr>
@@ -82,8 +82,10 @@
             "remark": remark
         };
 
+        alert(JSON.stringify(json));
+
         //完成ajax操作
-        $.post("/updateUserById", json, function (data) {
+        $.post("/updateJob", json, function (data) {
             var info = "对不起，修改失败！";
             var pic = "error"
             if (data == "1") {

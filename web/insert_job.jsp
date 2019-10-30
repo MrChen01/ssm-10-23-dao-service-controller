@@ -2,68 +2,70 @@
   Created by IntelliJ IDEA.
   User: mi
   Date: 2019/9/22
-  Time: 16:08
+  Time: 11:10
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+    <%--<link rel="stylesheet" type="text/css" href="../demo.css">--%>
     <script type="text/javascript" src="easyui/jquery.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="ueditor/ueditor.all.min.js"></script>
-    <script type="text/javascript" charset="utf-8" src="ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
 </head>
 <body>
-<form method="get" action="/insertNotice">
-    <table cellpadding="7">
-        <tr>
-            <td>公告名称:</td>
-            <td><input value="AAAA" id="name" type="text" name="name" width="300px" height="20px"></td>
-        </tr>
+<h2>Basic TextBox</h2>
+<p>The textbox allows a user to enter information.</p>
+<div style="margin:20px 0;"></div>
+<div class="easyui-panel" title="Register" style="width:100%;max-width:400px;padding:30px 60px;">
 
-        <tr>
-            <td>公告主题:</td>
-            <td><input id="title" value="ABBBB" type="text" name="title" width="300px" height="20px"></td>
-        </tr>
-    </table>
-    <textarea id="content" name="content" style="width: 100%;height: 400px;"></textarea>
-    <input type="text" value="remark" name="remark" id="remark" placeholder="remark 备注使用">
-    <%--<button id="submit" value="submint"></button>--%>
-    <input id="submit" type="submit" value="submit">
-</form>
-<script type="text/javascript">
-    var ue = UE.getEditor("content");
+    <div style="margin-bottom:20px"><input id="id" name="id" class="easyui-textbox" label="部门编号:" labelPosition="top"
+                                           data-options="prompt:'Enter a part id...'" style="width:100%;">
+    </div>
 
-    setTimeout(function () {
-        editor.execCommand("drafts");
-    }, 2000);
+    <div style="margin-bottom:20px"><input id="name" name="name" class="easyui-textbox" label="岗位名称:" labelPosition="top"
+                                           data-options="prompt:'Enter a part name...'" style="width:100%;">
+    </div>
 
-//    $(function () {
-//        $("#submit").click(function () {
-//            console.log(ue);
-//            var name = $("#name").val();
-//            var title = $("#title").val();
-//            var content = $("#content").val();
-//            var remark = $("#remark").val();
-//            var json = {
-//                "name": name,
-//                "title": title,
-//                "content": content,
-//                "remark": remark
-//            };
-//
-//            alert(JSON.stringify(json));
-//
-//            $.get("/insertNotice", json, function (data) {
-//                //                if (data == "1") {
-//                //                }
-//                console.log(data);
-//                //                alert(data);
-////                    window.location.reload();
-//            });
-//        });
-//    })
-</script>
+    <div style="margin-bottom:20px">
+        <input id="remark"  name="remark" class="easyui-textbox" label="岗位备注:" labelPosition="top" style="width:100%;">
+    </div>
+
+    <div>
+        <a href="javascript:void(0)" id="registerDept" class="easyui-linkbutton" iconCls="icon-ok"
+           style="width:100%;height:32px">添加工作岗位</a>
+    </div>
+</div>
+
 </body>
+<script type="text/javascript">
+    $(function () {
+        $("#registerDept").click(function () {
+            var id = $("#id").val();
+            var name = $("#name").val();
+            var remark = $("#remark").val();
+
+            var json = {
+                "id":id,
+                "name": name,
+                "remark": remark
+
+            };
+
+            alert(JSON.stringify(json));
+            $.get("/insertJob", json, function (data) {
+                var info = "添加失败";
+                if (data == "0") {
+                    console.log(data);
+                    $.messager.alert('结果', "添加失败",
+                        'info', function () {
+                            window.location.reload();
+                        });
+                }
+            });
+        });
+    });
+</script>
 </html>

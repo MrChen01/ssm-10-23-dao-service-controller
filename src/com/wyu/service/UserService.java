@@ -23,4 +23,6 @@ public interface UserService {
 
     List<User> selectUserByPage();
 
+    List<User> selectUserByLike(String number, String username, int status  );
+
 }

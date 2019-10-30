@@ -31,10 +31,14 @@ public class JobController {
      * @return
      */
     @RequestMapping("/insertJob")
-    @ResponseBody
+//    @ResponseBody
     public String insertJob(Job job) {
         int i = jobService.insertJob(job);
-        return i + "";
+        System.out.println("----><---" + i + job.toString());
+        if (i > 0) {
+            return "forward:select_job";
+        }
+        return "insert_job";
     }
 
     /**
@@ -50,10 +54,11 @@ public class JobController {
         return jobs;
     }
 
-    @RequestMapping(value = "/updateJob", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateJob", method = RequestMethod.POST, produces = {"application/text;charset=UTF-8"})
     @ResponseBody
     public String updateJob(Job job) {
         int i = jobService.updateJob(job);
+        System.out.println("i--->:" + i + "---->" + job.toString());
         return i + "";
     }
 

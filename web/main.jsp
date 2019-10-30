@@ -97,6 +97,10 @@
             margin-top: 5px;
         }
 
+        #file_upload > a {
+            width: 120px;
+            margin-top: 20px;
+        }
     </style>
 
 </head>
@@ -224,13 +228,15 @@
                 <p>Accordion是jQuery的easyui框架的一部分。它使您可以更容易地在web页面上定义手风琴组件。</p>
             </div>
 
+            <div id="file_upload" title="下载中心" data-options="iconCls:'icon-print'"
+                 style="overflow: auto; padding: 10px; height: 200px">
+                <a id="file_down" href="#" class="easyui-linkbutton icon-add-test" onclick="return false"
+                   data-options="plain:true,iconCls:'icon-more'" id="filesDL">文件下载</a>
 
-            <div title="Help" data-options="iconCls:'icon-help'" style="padding:10px;">
-                <p>手风琴允许您提供多个面板，并一次显示一个或多个面板。
-                    每个面板都内置了对展开和折叠的支持。单击面板标题以展开或折叠该面板主体。
-                    面板内容可以通过指定“href”属性通过ajax加载。用户可以定义要选择的面板。
-                    如果没有指定，则默认采用第一个面板。</p>
+                <a id="file_upload_use" href="#" class="easyui-linkbutton icon-add-test" onclick="return false"
+                   data-options="plain:true,iconCls:'icon-add'" id="upload">文件上传</a>
             </div>
+
             <div title="TreeMenu" data-options="iconCls:'icon-search'" style="padding:10px 0;">
                 <ul class="easyui-tree">
                     <li>
@@ -336,6 +342,14 @@
 
         $("#select_job").click(function () {
             addTab("#tt", "查询job", "icon-mini-edit", "select_job.jsp");
+        });
+
+        $("#file_upload_use").click(function () {
+            addTab("#tt", "上传下载文件", "icon-mini-edit", "file_down_upload.jsp");
+        });
+
+        $("#file_down").click(function () {
+            addTab("#tt", "上传下载文件", "icon-mini-edit", "file_down_upload.jsp");
         });
 
 //        $("#addTab").click(function () {

@@ -76,4 +76,16 @@ public class UserServiceImp implements UserService {
         return userList;
     }
 
+    @Override
+    public List<User> selectUserByLike(String number, String username, int status) {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andNumberGreaterThan(number);
+        criteria.andUsernameLike(username);
+        criteria.andStatusEqualTo(status);
+        List<User> userList = userMapper.selectByExample(userExample);
+        System.out.println(userList.toString());
+        return userList;
+    }
+
 }
