@@ -345,11 +345,11 @@
         });
 
         $("#file_upload_use").click(function () {
-            addTab("#tt", "上传下载文件", "icon-mini-edit", "file_down_upload.jsp");
+            addTab("#tt", "上传文件", "icon-mini-edit", "file_down_upload.jsp");
         });
 
         $("#file_down").click(function () {
-            addTab("#tt", "上传下载文件", "icon-mini-edit", "file_down_upload.jsp");
+            addTab("#tt", "下载文件", "icon-mini-edit", "downFile");
         });
 
 //        $("#addTab").click(function () {

@@ -16,14 +16,16 @@
 <body>
 <div id="tb" style="padding: 5px; height: auto">
     <div>
-        学号: <input class="easyui-textbox" style="width: 150px; height: 25px" name="number">
-        姓名: <input class="easyui-textbox" style="width: 150px; height: 25px" name="username">
-        等级: <select class="easyui-combobox" panelHeight="auto" style="width: 100px; height: 25px " name="status">
+        <%--学号: <input class="easyui-textbox" style="width: 150px; height: 25px" name="number">--%>
+        姓名: <input id="selectUserByLike_username" class="easyui-textbox" style="width: 150px; height: 25px"
+                   name="username" value="陈">
+        等级: <select id="selectUserByLike_status" class="easyui-combobox" panelHeight="auto"
+                    style="width: 100px; height: 25px " name="status">
         <option value="1">普通用户</option>
         <option value="2">管理员</option>
         <option value="3">超级管理员</option>
     </select>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-search" style="height: 25px">查询</a>
+        <a id="selectUserByLike" href="#" class="easyui-linkbutton" iconCls="icon-search" style="height: 25px">查询</a>
     </div>
 </div>
 
@@ -102,7 +104,7 @@
             "username": username,
             "password": password,
             "phone": phone,
-            "status":status
+            "status": status
         };
 
         //完成ajax操作
@@ -174,6 +176,50 @@
                 width: 220
             }]]
         });
+
+
+        $("#selectUserByLike").click(function () {
+            var selectUserByLike_username = $("#selectUserByLike_username").val();
+            var selectUserByLike_status = $("#selectUserByLike_status option:selected").val();
+            alert(selectUserByLike_username + selectUserByLike_status);
+            var page = 1;
+            var rows = 5;
+            alert('/selectUserByLike?' + 'username=' + selectUserByLike_username + '&status=' + selectUserByLike_status);
+
+            $('#dg').datagrid({
+                url: '/selectUserByLike?' + 'username=' + selectUserByLike_username + '&status=' + selectUserByLike_status,
+                title: '学生列表',
+                border: false,
+                rownumbers: true,
+                toolbar: '#tb',
+                pagination: true,
+                pageSize: "5",
+                pageList: [5, 10, 15, 20],
+                singleSelect: true,
+                columns: [[{
+                    field: 'number',
+                    title: '学号',
+                    width: 220
+                }, {
+                    field: 'username',
+                    title: '姓名',
+                    width: 220
+                }, {
+                    field: 'password',
+                    title: '密码',
+                    width: 200
+                }, {
+                    field: 'phone',
+                    title: '手机',
+                    width: 200
+                }, {
+                    field: 'createdate',
+                    title: '注册时间',
+                    width: 220
+                }]]
+            });
+        });
+
 
         var pager = $('#dg').datagrid().datagrid('getPager');
 

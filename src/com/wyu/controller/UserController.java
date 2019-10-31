@@ -156,21 +156,19 @@ public class UserController {
 
     @RequestMapping(value = "/selectUserByLike", produces = {"application/text;charset=UTF-8"})
     @ResponseBody
-    public String selectUserByLike(@RequestParam("number") String number,
-                                   @RequestParam("username") String username,
-                                   @RequestParam("status") int status,
-                                   @RequestParam("page") int page,
-                                   @RequestParam("rows") int rows) {
-        System.out.println("----------------->" + number + "----" + username + "----" + status + "----" + page + "----" + rows);
+    public String selectUserByLike(
+            @RequestParam("username") String username,
+            @RequestParam("status") int status,
+            @RequestParam("page") int page,
+            @RequestParam("rows") int rows) {
+        System.out.println("----------------->" + "----" + username + "----" + status + "----" + page + "----" + rows);
         PageHelper.startPage(page, rows);
-        List<User> userList = userService.selectUserByLike(number, username, status);
+        List<User> userList = userService.selectUserByLike(username, status);
         PageInfo<User> pageInfo = new PageInfo<>(userList);
         long total = pageInfo.getTotal();
         String stringJson = JSON.toJSONString(userList);
-        String json = "{'total':" + total + ",'rows':" + stringJson + "}";
+        String json = "{\"total\":" + total + ",\"rows\":" + stringJson + "}";
         System.out.println("json---->" + json);
         return json;
     }
-
-
 }
