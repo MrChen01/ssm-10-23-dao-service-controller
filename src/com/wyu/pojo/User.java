@@ -1,5 +1,8 @@
 package com.wyu.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class User {
@@ -11,13 +14,12 @@ public class User {
 
     private String phone;
 
+    @JSONField(format = "yyyy-MM-dd HH-mm-ss-sss")
     private Date createdate;
 
     private String username;
 
     private String remark;
-
-
 
     public User() {
     }

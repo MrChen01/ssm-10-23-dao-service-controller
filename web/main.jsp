@@ -125,7 +125,7 @@
                             </td>
                             <td style="width: 25px;"><img src="images/top_exit.gif"></td>
                             <td style="width: 120px;">
-                                <a style="color: rgb(255, 255, 255); text-decoration: none;" href=" ">退出登录</a>
+                                <a id="login_exist" style="color: rgb(255, 255, 255); text-decoration: none;" href=" ">退出登录</a>
                             </td>
                         </tr>
                         </tbody>
@@ -350,6 +350,13 @@
 
         $("#file_down").click(function () {
             addTab("#tt", "下载文件", "icon-mini-edit", "downFile");
+        });
+
+        $("#login_exist").click(function () {
+            var flag = alert("退出登录");
+            if(flag){
+             alert("已经保存到数据库");
+            }
         });
 
 //        $("#addTab").click(function () {
